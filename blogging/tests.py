@@ -1,8 +1,11 @@
 import datetime
+
 from django.utils.timezone import utc
 from django.test import TestCase
 from django.contrib.auth.models import User
-from blogging.models import Post, Category
+
+from blogging.models import Post
+from blogging.models import Category
 
 # Create your tests here.
 
@@ -64,7 +67,7 @@ class PostTestCase(TestCase):
 
 class CategoryTestCase(TestCase):
 
-    def test_string_represenation(self):
+    def test_string_representation(self):
         expected = "A Category"
         c1 = Category(name=expected)
         actual = str(c1)
