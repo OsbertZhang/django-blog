@@ -11,6 +11,7 @@ from blogging.models import Post
 
 class BlogListView(ListView):
     queryset = Post.objects.order_by('-published_date').exclude(published_date__exact=None)
+    #model = Post
     template_name = 'blogging/list.html'
 
 # def list_view(request):
@@ -29,7 +30,8 @@ class BlogListView(ListView):
 
 
 class BlogDetailView(DetailView):
-    model = Post
+    queryset = Post.objects.exclude(published_date__exact=None)
+    #model = Post
     template_name = 'blogging/detail.html'
 
 
