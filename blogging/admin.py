@@ -10,7 +10,7 @@ class CategoryInLine(admin.TabularInline):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    exclude = ('posts',)
+    exclude = ("posts",)
 
 
 @admin.register(Post)
@@ -20,6 +20,5 @@ class PostAdmin(admin.ModelAdmin):
     ]
 
 
-#admin.site.register(Post, PostAdmin)
-#admin.site.register(Category, CategoryAdmin)
-
+# admin.site.register(Post, PostAdmin)
+# admin.site.register(Category, CategoryAdmin)
