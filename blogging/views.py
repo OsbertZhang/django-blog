@@ -1,10 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.template import loader
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.utils import timezone
+
+# from django.views.generic import CreateView
+
 
 from blogging.models import Post
+from blogging.forms import AddPostForm
 
 # Create your views here.
 
@@ -57,3 +62,28 @@ class BlogDetailView(DetailView):
 #         body += "Kwargs:\n"
 #         body += "\n".join(["\t%s: %s" % i for i in kwargs.items()])
 #     return HttpResponse(body, content_type="text/plain")
+
+# class BlogCreateView(CreateView):
+#     model = Post
+#     template_name = "blogging/add.html"
+#     fields = ('title', 'text')
+
+
+def create_blog_view(request):
+    user = request.user
+    if not user.is_authenticated:
+        return redirect("account_login")
+
+    form = AddPostForm()
+    if request.method == "POST":
+        form = AddPostForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.author = user
+            obj.published_date = timezone.now()
+            obj.save()
+            return redirect("blog_index")
+
+    context = {"form": form}
+
+    return render(request, "blogging/add.html", context=context)
